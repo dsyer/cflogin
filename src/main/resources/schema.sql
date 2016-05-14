@@ -1,7 +1,7 @@
 create table oauth_client_details (
-  client_id VARCHAR(256) PRIMARY KEY,
+  client_id VARCHAR(100) PRIMARY KEY,
   resource_ids VARCHAR(256),
-  client_secret VARCHAR(256),
+  client_secret VARCHAR(100),
   scope VARCHAR(256),
   authorized_grant_types VARCHAR(256),
   web_server_redirect_uri VARCHAR(256),

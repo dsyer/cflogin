@@ -14,14 +14,22 @@ logging:
 security:
   user:
     password: password
-  ignored: /webjars/**,/js/**,/images/**,/css/**
+  ignored: /webjars/**,/js/**,/images/**,/css/**,/h2-console/**
   oauth2:
     resource:
       user-info-uri: https://uaa.run.pivotal.io/userinfo
-
 ---
 spring:
   profiles: default
 
 server:
   context-path: /uaa
+
+---
+spring:
+  profiles: console
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
