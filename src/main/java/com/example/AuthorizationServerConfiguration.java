@@ -2,6 +2,8 @@ package com.example;
 
 import java.util.Arrays;
 
+import javax.sql.DataSource;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -16,12 +18,14 @@ public class AuthorizationServerConfiguration
 
 	private ProxyAuthorizationServerTokenServices tokenServices;
 	private CloudFoundryAuthenticationProvider authenticationProvider;
+	private DataSource dataSource;
 
 	public AuthorizationServerConfiguration(
 			ProxyAuthorizationServerTokenServices tokenServices,
-			CloudFoundryAuthenticationProvider authenticationProvider) {
+			CloudFoundryAuthenticationProvider authenticationProvider, DataSource dataSource) {
 		this.tokenServices = tokenServices;
 		this.authenticationProvider = authenticationProvider;
+		this.dataSource = dataSource;
 	}
 
 	@Override
@@ -36,10 +40,7 @@ public class AuthorizationServerConfiguration
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		// N.B. the scopes are notional. The tokens are all generated with scopes that are
 		// passed through from the UAA.
-		clients.inMemory().withClient("cf").secret("")
-				.scopes("openid", "cloud_controller.read", "cloud_controller.write")
-				.authorizedGrantTypes("password", "authorization_code", "refresh_token")
-				.autoApprove(true);
+		clients.jdbc(dataSource);
 	}
 	
 }

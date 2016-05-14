@@ -3,6 +3,8 @@ spring:
     name: cflogin
   mustache:
     expose-request-attributes: true
+  datasource:
+    continue-on-error: true
 server:
   port: 9999
 logging:
