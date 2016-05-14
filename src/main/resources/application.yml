@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: cflogin
+  mustache:
+    expose-request-attributes: true
+server:
+  port: 9999
+logging:
+  level:
+    org.springframework.security: DEBUG
+security:
+  ignored: /webjars/**,/js/**,/images/**,/css/**
+  oauth2:
+    resource:
+      user-info-uri: https://uaa.run.pivotal.io/userinfo
+
+---
+spring:
+  profiles: default
+
+server:
+  context-path: /uaa
