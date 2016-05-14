@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Controller;
@@ -18,14 +17,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @EnableConfigurationProperties(CloudFoundryProperties.class)
 @Controller
 public class LoginApplication extends WebMvcConfigurerAdapter {
-
-	private ServerProperties server;
-	private CloudFoundryProperties cloud;
-
-	public LoginApplication(ServerProperties server, CloudFoundryProperties cloud) {
-		this.server = server;
-		this.cloud = cloud;
-	}
 
 	@RequestMapping("/userinfo")
 	@ResponseBody
@@ -41,10 +32,8 @@ public class LoginApplication extends WebMvcConfigurerAdapter {
 
 	@RequestMapping("/")
 	public String home(Map<String, Object> model, Principal user) {
-		model.put("contextPath", server.getContextPath()==null ? "" : server.getContextPath());
-		model.put("api", cloud.getApi());
 		model.put("user", user.getName());
-		return "index";
+		return "forward:/clients";
 	}
 	
 	@RequestMapping("/login")
@@ -57,8 +46,6 @@ public class LoginApplication extends WebMvcConfigurerAdapter {
 		if (logout != null) {
 			model.put("logout", "Logged out successfully");
 		}
-		model.put("contextPath", server.getContextPath()==null ? "" : server.getContextPath());
-		model.put("api", cloud.getApi());
 		return "login";
 	}
 

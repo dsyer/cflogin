@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Demo</title>
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width" />
+<base href="{{contextPath}}/" />
+<link rel="stylesheet" type="text/css"
+	href="webjars/bootstrap/css/bootstrap.min.css" />
+<script type="text/javascript" src="webjars/jquery/jquery.min.js"></script>
+<script type="text/javascript"
+	src="webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<ul class="nav nav-pills" role="tablist">
+			<li class="active"><a href="">home</a></li>
+			<li><form id="logoutForm" action="logout" method="post">
+					{{#_csrf}} <input type="hidden" name="{{parameterName}}"
+						value="{{token}}" />{{/_csrf}}
+				</form> <a href=""
+				onClick="document.getElementById('logoutForm').submit(); return false">Logout</a>
+			</li>
+		</ul>
+	</div>
+	<h1>Clients</h1>
+	<div class="container">
+		{{#clients.empty}}
+		<div class="alert alert-info">No Clients for {{user}}.</div>
+		{{/clients.empty}} {{^clients.empty}}
+		<div class="alert alert-info">Clients for {{user}}.</div>
+		{{/clients.empty}}
+		<table class="table table-bordered table-striped">
+			<tr>
+				<th>Client ID</th>
+				<th>Client Secret</th>
+				<th></th>
+			</tr>
+			{{#clients}}
+			<tr>
+				<td>{{clientId}}</td>
+				<td>{{clientSecret}}</td>
+				<td><form action="clients/{{clientId}}" method="post">
+						{{#_csrf}} <input type="hidden" name="{{parameterName}}"
+							value="{{token}}" />{{/_csrf}} <input type="hidden"
+							name="_method" value="DELETE" />
+						<button type="submit" class="btn btn-primary">Delete</button>
+					</form></td>
+			</tr>
+			{{/clients}}
+		</table>
+		<form action="clients" method="post">
+			{{#_csrf}} <input type="hidden" name="{{parameterName}}"
+				value="{{token}}" />{{/_csrf}}
+			<button type="submit" class="btn btn-primary">Add</button>
+		</form>
+	</div>
+</body>
+</html>

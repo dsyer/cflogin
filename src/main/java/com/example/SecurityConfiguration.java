@@ -27,6 +27,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  *
  */
 @Configuration
+// TODO: when Spring OAuth 2.0.10 is out
+// @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private final AuthenticationProvider authenticationProvider;

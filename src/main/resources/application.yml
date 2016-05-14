@@ -10,7 +10,10 @@ server:
 logging:
   level:
     org.springframework.security: DEBUG
+#    org.springframework.web: DEBUG
 security:
+  user:
+    password: password
   ignored: /webjars/**,/js/**,/images/**,/css/**
   oauth2:
     resource:
