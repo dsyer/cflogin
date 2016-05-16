@@ -55,5 +55,9 @@ class CloudFoundryAuthentication extends AbstractAuthenticationToken {
 	public OAuth2AccessToken getToken() {
 		return token;
 	}
+	
+	public void setToken(OAuth2AccessToken token) {
+		this.token = token;
+	}
 
 }

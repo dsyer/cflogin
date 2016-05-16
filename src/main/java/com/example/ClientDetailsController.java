@@ -18,6 +18,7 @@ package com.example;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -73,6 +74,7 @@ public class ClientDetailsController {
 				"openid,cloud_controller.read,cloud_controller.write",
 				"password,authorization_code,refresh_token", "ROLE_CLIENT");
 		client.setClientSecret(strings.generate());
+		client.setAutoApproveScopes(Arrays.asList("true"));
 		clients.addClientDetails(client);
 		template.update(
 				"INSERT into user_client_details (username, client_id) values (?,?)",

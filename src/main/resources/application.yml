@@ -14,7 +14,7 @@ logging:
 security:
   user:
     password: password
-  ignored: /webjars/**,/js/**,/images/**,/css/**,/h2-console/**
+  ignored: /webjars/**,/js/**,/images/**,/css/**,/**/favicon.ico,/h2-console/**
   oauth2:
     resource:
       user-info-uri: https://uaa.run.pivotal.io/userinfo

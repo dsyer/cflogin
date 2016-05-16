@@ -18,6 +18,8 @@ package com.example;
 
 import java.util.Map;
 
+import org.cloudfoundry.client.lib.CloudCredentials;
+import org.cloudfoundry.client.lib.CloudFoundryClient;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -62,7 +64,16 @@ public class ProxyAuthorizationServerTokenServices
 			throws AuthenticationException {
 		Authentication user = authentication.getUserAuthentication();
 		if (user instanceof CloudFoundryAuthentication) {
-			return ((CloudFoundryAuthentication) user).getToken();
+			CloudFoundryAuthentication cfuser = (CloudFoundryAuthentication) user;
+			OAuth2AccessToken token = cfuser.getToken();
+			if (token.isExpired()) {
+				CloudCredentials credentials = new CloudCredentials(token);
+				CloudFoundryClient client = new CloudFoundryClient(credentials,
+						properties.getApi());
+				token = client.login();
+				cfuser.setToken(token);
+			}
+			return token;
 		}
 		throw new AuthenticationCredentialsNotFoundException(
 				"No Cloud Foundy authentication found");
